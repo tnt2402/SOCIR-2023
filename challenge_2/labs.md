@@ -12,6 +12,11 @@
 	* 1.9. [Lab 09: SQL injection UNION attack, retrieving data from other tables](#Lab09:SQLinjectionUNIONattackretrievingdatafromothertables)
 	* 1.10. [Lab 10: SQL injection UNION attack, retrieving multiple values in a single column](#Lab10:SQLinjectionUNIONattackretrievingmultiplevaluesinasinglecolumn)
 	* 1.11. [Lab 11: Blind SQL injection with conditional responses](#Lab11:BlindSQLinjectionwithconditionalresponses)
+	* 1.12. [Lab 12: Blind SQL injection with conditional errors](#Lab12:BlindSQLinjectionwithconditionalerrors)
+	* 1.13. [Lab 13: Visible error-based SQL injection](#Lab13:Visibleerror-basedSQLinjection)
+	* 1.14. [Lab 14: Blind SQL injection with time delays](#Lab14:BlindSQLinjectionwithtimedelays)
+	* 1.15. [Lab 15: Blind SQL injection with time delays and information retrieval](#Lab15:BlindSQLinjectionwithtimedelaysandinformationretrieval)
+	* 1.16. [Lab 16: Blind SQL injection with out-of-band interaction](#Lab16:BlindSQLinjectionwithout-of-bandinteraction)
 
 <!-- vscode-markdown-toc-config
 	numbering=true
@@ -212,7 +217,7 @@ Password: at83g32icqx71z7sboa0
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-conditional-responses)
 
 
-![Alt text](image-2.png)
+![](imgs/image-2.png)
 -> TrackingId: v0gRhsIwxZaVQJ5y
 
 ```
@@ -256,7 +261,7 @@ Password: qd7g73kl51rhmvdb63xv
 ```
 ![](imgs/2023-10-09-21-52-08.png)
 
-### Lab 12: Blind SQL injection with conditional errors
+###  1.12. <a name='Lab12:BlindSQLinjectionwithconditionalerrors'></a>Lab 12: Blind SQL injection with conditional errors
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-conditional-errors)
 
 ```
@@ -313,7 +318,7 @@ Password: zw2nvf9u3eeztllnsih5
 ```
 ![](imgs/2023-10-09-23-41-35.png)
 
-### Lab 13: Visible error-based SQL injection
+###  1.13. <a name='Lab13:Visibleerror-basedSQLinjection'></a>Lab 13: Visible error-based SQL injection
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-sql-injection-visible-error-based)
 
 
@@ -343,7 +348,7 @@ Password: r2tlshhvr6m1cqmllrt3
 
 ![](imgs/2023-10-10-00-09-32.png)
 
-### Lab 14: Blind SQL injection with time delays
+###  1.14. <a name='Lab14:BlindSQLinjectionwithtimedelays'></a>Lab 14: Blind SQL injection with time delays
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-time-delays)
 
 Time delays cheat sheet:
@@ -354,7 +359,7 @@ TrackingId=<Your TrackingId>'||pg_sleep(10)--
 ```
 ![](imgs/2023-10-10-00-15-18.png)
 
-### Lab 15: Blind SQL injection with time delays and information retrieval
+###  1.15. <a name='Lab15:BlindSQLinjectionwithtimedelaysandinformationretrieval'></a>Lab 15: Blind SQL injection with time delays and information retrieval
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-time-delays-info-retrieval)
 
 ```
@@ -386,7 +391,7 @@ Password: 3ewy9yfdfg7vfqjlv1oy
 ```
 ![](imgs/2023-10-10-00-44-33.png)
 
-### Lab 16: Blind SQL injection with out-of-band interaction
+###  1.16. <a name='Lab16:BlindSQLinjectionwithout-of-bandinteraction'></a>Lab 16: Blind SQL injection with out-of-band interaction
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band)
 
 
