@@ -1,4 +1,18 @@
-# PortSwigger Labs
+<!-- vscode-markdown-toc -->
+* [Access control vulnerabilities](#Accesscontrolvulnerabilities)
+	* [Lab 01: Unprotected admin functionality](#Lab01:Unprotectedadminfunctionality)
+	* [Lab 02: Unprotected admin functionality with unpredictable URL](#Lab02:UnprotectedadminfunctionalitywithunpredictableURL)
+	* [Lab 03: User role controlled by request parameter](#Lab03:Userrolecontrolledbyrequestparameter)
+	* [Lab 04: User role can be modified in user profile](#Lab04:Userrolecanbemodifiedinuserprofile)
+	* [Lab 05: User ID controlled by request parameter](#Lab05:UserIDcontrolledbyrequestparameter)
+	* [Lab 06: User ID controlled by request parameter, with unpredictable user IDs](#Lab06:UserIDcontrolledbyrequestparameterwithunpredictableuserIDs)
+	* [Lab 07: User ID controlled by request parameter with data leakage in redirect](#Lab07:UserIDcontrolledbyrequestparameterwithdataleakageinredirect)
+	* [Lab 08: User ID controlled by request parameter with password disclosure](#Lab08:UserIDcontrolledbyrequestparameterwithpassworddisclosure)
+	* [Lab 09: Insecure direct object references](#Lab09:Insecuredirectobjectreferences)
+	* [Lab 10: URL-based access control can be circumvented](#Lab10:URL-basedaccesscontrolcanbecircumvented)
+	* [Lab 11: Method-based access control can be circumvented](#Lab11:Method-basedaccesscontrolcanbecircumvented)
+	* [Lab 12: Multi-step process with no access control on one step](#Lab12:Multi-stepprocesswithnoaccesscontrolononestep)
+	* [Lab 13: Referer-based access control](#Lab13:Referer-basedaccesscontrol)
 
 <!-- vscode-markdown-toc-config
 	numbering=false
@@ -10,9 +24,9 @@
 
 [PortSwigger Labs](https://portswigger.net/web-security/all-labs#sql-injection)
 
-## Access control vulnerabilities
+## <a name='Accesscontrolvulnerabilities'></a>Access control vulnerabilities
 
-### Lab 01: Unprotected admin functionality
+### <a name='Lab01:Unprotectedadminfunctionality'></a>Lab 01: Unprotected admin functionality
 [Link](https://portswigger.net/web-security/access-control/lab-unprotected-admin-functionality)
 
 robots.txt file:
@@ -23,7 +37,7 @@ administrator-panel site:
 
 ![](imgs/2023-10-10-14-14-59.png)
 
-### Lab 02: Unprotected admin functionality with unpredictable URL
+### <a name='Lab02:UnprotectedadminfunctionalitywithunpredictableURL'></a>Lab 02: Unprotected admin functionality with unpredictable URL
 [Link](https://portswigger.net/web-security/access-control/lab-unprotected-admin-functionality-with-unpredictable-url)
 
 Tracing the website in Repeater:
@@ -59,7 +73,7 @@ The "Admin Panel" show up:
 
 ![](imgs/2023-10-10-14-28-58.png)
 
-### Lab 03: User role controlled by request parameter
+### <a name='Lab03:Userrolecontrolledbyrequestparameter'></a>Lab 03: User role controlled by request parameter
 [Link](https://portswigger.net/web-security/access-control/lab-user-role-controlled-by-request-parameter)
 
 I login using the following credentials wiener:peter
@@ -75,7 +89,7 @@ Refresh the page, now i have admin access.
 ![](imgs/2023-10-10-14-39-01.png)
 ![](imgs/2023-10-10-14-39-15.png)
 
-### Lab 04: User role can be modified in user profile
+### <a name='Lab04:Userrolecanbemodifiedinuserprofile'></a>Lab 04: User role can be modified in user profile
 [Link](https://portswigger.net/web-security/access-control/lab-user-role-can-be-modified-in-user-profile)
 
 I login using the following credentials wiener:peter
@@ -94,7 +108,7 @@ Refresh the page
 
 ![](imgs/2023-10-10-14-52-58.png)
 
-### Lab 05: User ID controlled by request parameter
+### <a name='Lab05:UserIDcontrolledbyrequestparameter'></a>Lab 05: User ID controlled by request parameter
 [Link](https://portswigger.net/web-security/access-control/lab-user-id-controlled-by-request-parameter)
 
 I login using the following credentials wiener:peter
@@ -105,7 +119,7 @@ I login using the following credentials wiener:peter
 
 ![](imgs/2023-10-10-14-59-20.png)
 
-### Lab 06: User ID controlled by request parameter, with unpredictable user IDs
+### <a name='Lab06:UserIDcontrolledbyrequestparameterwithunpredictableuserIDs'></a>Lab 06: User ID controlled by request parameter, with unpredictable user IDs
 [Link](https://portswigger.net/web-security/access-control/lab-user-id-controlled-by-request-parameter-with-unpredictable-user-ids)
 
 I login using the following credentials wiener:peter
@@ -124,7 +138,7 @@ So the ID of "carlos" is "4f983854-ad06-4c17-8126-db5452a85956"
 Submit his API key
 ![](imgs/2023-10-10-15-10-11.png)
 
-### Lab 07: User ID controlled by request parameter with data leakage in redirect
+### <a name='Lab07:UserIDcontrolledbyrequestparameterwithdataleakageinredirect'></a>Lab 07: User ID controlled by request parameter with data leakage in redirect
 [Link](https://portswigger.net/web-security/access-control/lab-user-id-controlled-by-request-parameter-with-data-leakage-in-redirect)
 
 
@@ -138,7 +152,7 @@ There is a redirect after the request to /my-account?id=carlos, but the response
 Submit his API key:
 ![](imgs/2023-10-10-15-14-55.png)
 
-### Lab 08: User ID controlled by request parameter with password disclosure
+### <a name='Lab08:UserIDcontrolledbyrequestparameterwithpassworddisclosure'></a>Lab 08: User ID controlled by request parameter with password disclosure
 [Link](https://portswigger.net/web-security/access-control/lab-user-id-controlled-by-request-parameter-with-password-disclosure)
 
 I login using the following credentials wiener:peter
@@ -158,7 +172,7 @@ So the password of "administrator" is "dtpf871eld5ngan11tx1".
 
 ![](imgs/2023-10-10-15-25-01.png)
 
-### Lab 09: Insecure direct object references
+### <a name='Lab09:Insecuredirectobjectreferences'></a>Lab 09: Insecure direct object references
 [Link](https://portswigger.net/web-security/access-control/lab-insecure-direct-object-references)
 
 ![](imgs/2023-10-10-15-26-25.png)
@@ -177,6 +191,67 @@ The password is "e1635ok1wtu09pcyeo80"
 Login to carlos account
 ![](imgs/2023-10-10-15-35-22.png)
 
-### Lab 10: URL-based access control can be circumvented
+### <a name='Lab10:URL-basedaccesscontrolcanbecircumvented'></a>Lab 10: URL-based access control can be circumvented
 [Link](https://portswigger.net/web-security/access-control/lab-url-based-access-control-can-be-circumvented)
 
+X-Original-URL header can be used to control the behavior of the server.
+
+![](imgs/2023-10-11-04-50-55.png)
+
+I can send a similar POST request to the server and append the X-Original-URL header to it. The value of the X-Original-URL header is "/admin" - which means that the server will navigate to the /admin page.
+
+Send the POST request to the server and then show the response in the browser
+![](imgs/2023-10-11-04-53-02.png)
+![](imgs/2023-10-11-04-52-37.png)
+
+This works ~uwu~
+
+I want to delete the "carlos" user. The website must navigate to "admin/delete?username=carlos". So i update the X-Original-URL field above to "admin/delete" and resend the request to "?username=carlos".
+
+![](imgs/2023-10-11-05-13-20.png)
+
+![](imgs/2023-10-11-05-13-39.png)
+
+### <a name='Lab11:Method-basedaccesscontrolcanbecircumvented'></a>Lab 11: Method-based access control can be circumvented
+[Link](https://portswigger.net/web-security/access-control/lab-method-based-access-control-can-be-circumvented)
+
+I tried to downgrade user "wiener" to admin
+![](imgs/2023-10-11-05-23-20.png)
+
+So i can send a request to "/admin-roles" with parameters "username" and "action" to upgrade/downgrade an user. The cookie is needed to be authorized.
+
+Also the METHOD need to be changed to "GET".
+![](imgs/2023-10-11-05-26-10.png)
+
+![](imgs/2023-10-11-05-26-41.png)
+
+### <a name='Lab12:Multi-stepprocesswithnoaccesscontrolononestep'></a>Lab 12: Multi-step process with no access control on one step
+[Link](https://portswigger.net/web-security/access-control/lab-multi-step-process-with-no-access-control-on-one-step)
+
+I login as administrator and attempt to upgrade an user account
+![](imgs/2023-10-11-05-40-24.png)
+
+The POST request requires the following parameters "username", "comfirmed", "action"
+
+I logout the administrator, then login as "wiener" user
+![](imgs/2023-10-11-05-41-56.png)
+
+Copy the cookie of the user login session to authorized.
+
+Send a POST request to "/admin-roles" with the copied cookie
+![](imgs/2023-10-11-05-43-12.png)
+
+![](imgs/2023-10-11-05-43-41.png)
+
+### <a name='Lab13:Referer-basedaccesscontrol'></a>Lab 13: Referer-based access control
+[Link](https://portswigger.net/web-security/access-control/lab-referer-based-access-control)
+
+I login as administrator and attempt to upgrade an user account
+![](imgs/2023-10-11-05-48-27.png)
+
+I logout the administrator, then login as "wiener" user
+
+Send a POST request to "/admin-roles" to upgrade the "wiener" user account. i added the Referer header to the request.
+![](imgs/2023-10-11-05-50-29.png)
+
+![](imgs/2023-10-11-05-51-35.png)
