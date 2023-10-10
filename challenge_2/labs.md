@@ -1,4 +1,5 @@
 # PortSwigger Labs
+
 <!-- vscode-markdown-toc -->
 * [SQL Injection](#SQLInjection)
 	* [Lab 01: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data](#Lab01:SQLinjectionvulnerabilityinWHEREclauseallowingretrievalofhiddendata)
