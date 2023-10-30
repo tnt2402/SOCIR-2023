@@ -326,3 +326,15 @@ Cookie:
 ```
 
 ```
+
+I wrote a Ruby deserialization gadget chain payload generator.
+[Lab07 payload generator](./lab07_payload.rb)
+
+![](imgs/2023-10-30-21-27-10.png)
+
+Send request containing the generated payload
+![](imgs/2023-10-30-21-24-01.png)
+
+Done!
+![](imgs/2023-10-30-21-24-21.png)
+
