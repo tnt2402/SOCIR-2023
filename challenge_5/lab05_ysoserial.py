@@ -23,15 +23,6 @@ def generate(payloads, cmd):
             stderr=subprocess.PIPE
         )
 
-        # while True:
-        #     output = command.stdout.readline().decode().strip()
-        #     print(output)  # Print the output for visibility
-            
-        #     if output.endswith('y/n)'):  # Check for the prompt
-        #         command.stdin.write(b"n\n")  # Automatically answer "no"
-        #         command.stdin.flush()
-        #         break
-        
         res, err = command.communicate()
         
         if command.returncode == 0:
