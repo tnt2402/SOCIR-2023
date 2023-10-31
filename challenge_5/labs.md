@@ -297,7 +297,7 @@ hash_hmac(
 ![](imgs/2023-10-29-09-44-45.png)
 
 
-So i write [a python script](./lab06_payload/lab06.py) to generate all cookies with payloads from phpggc
+This [python script](./lab06_payload/lab06.py) can generate all cookies with payloads from phpggc
 
 Intruder settings:
 ![](imgs/2023-10-29-10-02-53.png)
