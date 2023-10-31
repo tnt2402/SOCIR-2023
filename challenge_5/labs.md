@@ -185,7 +185,7 @@ This cookie begins with the "r00" -> Java serialized object
 
 So i found a tool called [ysoserial](https://github.com/frohoff/ysoserial). This tool helps us generate payloads that exploit unsafe Java object deserialization.
 
-I wrote a script to generate all payloads for the command to exploit the Java serialization.
+I wrote [a script](./lab05_payload/lab05_ysoserial.py) to generate all payloads for the command to exploit the Java serialization.
 
 ![](imgs/2023-10-27-13-25-31.png)
 ![](imgs/2023-10-27-13-25-58.png)
@@ -297,7 +297,7 @@ hash_hmac(
 ![](imgs/2023-10-29-09-44-45.png)
 
 
-So i write a python script to generate all cookies with payloads from phpggc
+So i write [a python script](./lab06_payload/lab06.py) to generate all cookies with payloads from phpggc
 
 Intruder settings:
 ![](imgs/2023-10-29-10-02-53.png)
@@ -328,7 +328,7 @@ Cookie:
 ```
 
 I wrote a Ruby deserialization gadget chain payload generator.
-[Lab07 payload generator](./lab07_payload.rb)
+[Lab07 payload generator](./lab07_payload/lab07_payload.rb)
 
 ![](imgs/2023-10-30-21-27-10.png)
 
