@@ -524,3 +524,17 @@ heheboiz...
 ### Lab 09: Developing a custom gadget chain for PHP deserialization
 [Link](https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-developing-a-custom-gadget-chain-for-php-deserialization)
 
+
+![](imgs/2023-11-01-15-19-48.png)
+Cookie:
+```
+Raw:
+Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czoxMjoiYWNjZXNzX3Rva2VuIjtzOjMyOiJ5NzNiYW55ZGhlM2V6cHprdHMycmowODhjNnM5cG54bSI7fQ%3d%3d
+Decoded:
+O:4:"User":2:{s:8:"username";s:6:"wiener";s:12:"access_token";s:32:"y73banydhe3ezpzkts2rj088c6s9pnxm";}
+```
+
+Same as previous lab, there is a hint :>
+![](imgs/2023-11-01-15-21-10.png)
+
+I ran a content discovery for the lab:
