@@ -537,4 +537,73 @@ O:4:"User":2:{s:8:"username";s:6:"wiener";s:12:"access_token";s:32:"y73banydhe3e
 Same as previous lab, there is a hint :>
 ![](imgs/2023-11-01-15-21-10.png)
 
-I ran a content discovery for the lab:
+I ran a content discovery for the lab, but it seems that there is only a file CustomTemplate.php in /cgi-bin/libs
+
+![](imgs/2023-11-03-18-08-00.png)
+
+File is empty ?
+![](imgs/2023-11-03-18-22-39.png)
+
+CustomTemplate.php~
+```
+<?php
+
+class CustomTemplate {
+    private $default_desc_type;
+    private $desc;
+    public $product;
+
+    public function __construct($desc_type='HTML_DESC') {
+        $this->desc = new Description();
+        $this->default_desc_type = $desc_type;
+        // Carlos thought this is cool, having a function called in two places... What a genius
+        $this->build_product();
+    }
+
+    public function __sleep() {
+        return ["default_desc_type", "desc"];
+    }
+
+    public function __wakeup() {
+        $this->build_product();
+    }
+
+    private function build_product() {
+        $this->product = new Product($this->default_desc_type, $this->desc);
+    }
+}
+
+class Product {
+    public $desc;
+
+    public function __construct($default_desc_type, $desc) {
+        $this->desc = $desc->$default_desc_type;
+    }
+}
+
+class Description {
+    public $HTML_DESC;
+    public $TEXT_DESC;
+
+    public function __construct() {
+        // @Carlos, what were you thinking with these descriptions? Please refactor!
+        $this->HTML_DESC = '<p>This product is <blink>SUPER</blink> cool in html</p>';
+        $this->TEXT_DESC = 'This product is cool in text';
+    }
+}
+
+class DefaultMap {
+    private $callback;
+
+    public function __construct($callback) {
+        $this->callback = $callback;
+    }
+
+    public function __get($name) {
+        return call_user_func($this->callback, $name);
+    }
+}
+
+?>
+```
+
