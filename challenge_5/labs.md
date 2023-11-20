@@ -607,3 +607,39 @@ class DefaultMap {
 ?>
 ```
 
+In PHP, the call_user_func() function is a built-in function that allows you to call a callback function or method dynamically. It is useful when you want to invoke a function or method whose name is stored in a variable or passed as an argument.
+
+The call_user_func() function takes two parameters:
+
+- The first parameter is the callback function or method name. It can be a string representing the name of the function or method, or an array with two elements:
+
+- The first element is an object instance or class name for static methods.
+The second element is the method name as a string.
+The second parameter (optional) is an arbitrary number of arguments that you want to pass to the callback function or method.
+
+I write a test script to use the DefaultMap class:
+```
+<?php
+require_once 'CustomTemplate.php';
+
+function sayHello($name) {
+    echo "Hello, $name!";
+}
+
+// function sayHello 
+$callback = 'sayHello';
+$default_map = new DefaultMap($callback); 
+echo $default_map->__get('tnt2402') . "\n";
+
+// pass the function to the callback
+$sayHello_2 = "tnt2402_2";
+echo $default_map->$sayHello_2 . "\n"; 
+?>
+```
+![](imgs/2023-11-14-15-38-49.png)
+
+-> We can pass a command that delete morale.txt file from Carlos's home directory.
+
+Some callables we can use to execute commands in php:
+![](imgs/2023-11-14-15-54-07.png)
+
